@@ -2,6 +2,7 @@ import setuptools
 
 
 REQUIREMENTS = [
+    "kazoo==2.0",
 ]
 
 
