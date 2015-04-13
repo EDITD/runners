@@ -27,7 +27,7 @@ logger = logging.getLogger("runners")
 
 class Lock(object):
 
-    def __init__(self, path):
+    def __init__(self, path, state_listener=None):
         client = get_zookeeper_client()
         logger.info("Starting zookeeper client...")
         self.path = path
@@ -35,10 +35,14 @@ class Lock(object):
         logger.info("done")
 
         client.start()
+
+        if state_listener:
+            client.add_listener(state_listener)
+        else:
+            client.add_listener(default_state_listener)
+
         self.zookeeper_lock = kazoo_lock.Lock(client, self.path,
                                               self.identifier)
-        # TODO: add a state listener
-
     def __enter__(self):
         logger.info("id={0}: waiting to acquire lock on {1}".format(
             self.identifier, self.path))
@@ -49,6 +53,16 @@ class Lock(object):
     def __exit__(self, type_, value, traceback):
         logger.info("releasing lock")
         self.zookeeper_lock.release()
+
+
+def default_state_listener(state):
+    logging.debug(u"**** state is now {0} ****".format(state))
+    if state in [kazoo_client.KazooState.LOST,
+                 kazoo_client.KazooState.SUSPENDED]:
+        logging.error(u"Entered a bad state: {0}, exiting".format(state))
+        # Zookeeper state is in an odd situation, we should exit ourselves to
+        # ensure that the code doesn't run without being elected master.
+        os._exit(0)
 
 
 def generate_identifier():
