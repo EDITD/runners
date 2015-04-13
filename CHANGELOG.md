@@ -1,3 +1,8 @@
+# v0.0.3
+
+Add new version to deal with forgetting to update `setup.py` in previous
+release
+
 # v0.0.2
 
 * [#4] Add support for handling state transitions
