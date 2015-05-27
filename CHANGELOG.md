@@ -1,3 +1,7 @@
+# v0.0.4
+
+Expose kazoo client in lock helper
+
 # v0.0.3
 
 Add new version to deal with forgetting to update `setup.py` in previous
