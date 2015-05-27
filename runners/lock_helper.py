@@ -43,6 +43,8 @@ class Lock(object):
 
         self.zookeeper_lock = kazoo_lock.Lock(client, self.path,
                                               self.identifier)
+        self.zookeeper_client = client
+
     def __enter__(self):
         logger.info("id={0}: waiting to acquire lock on {1}".format(
             self.identifier, self.path))
