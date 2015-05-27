@@ -15,7 +15,7 @@ if __name__ == "__main__":
 
     setuptools.setup(
         name="runners",
-        version="0.0.3",
+        version="0.0.4",
         author="EDITD",
         author_email="engineering@editd.com",
         packages=setuptools.find_packages(),
