@@ -3,7 +3,7 @@ import sys
 
 
 REQUIREMENTS = [
-    "kazoo==2.0",
+    "kazoo>=2.0,<2.1",
 ]
 
 

@@ -1,3 +1,7 @@
+# <UNRELEASED VERSION>
+
+Use requirement ranges
+
 # v0.0.4
 
 Expose kazoo client in lock helper
