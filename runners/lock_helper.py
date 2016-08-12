@@ -9,9 +9,8 @@ an app).
 
 Or it can simply be something that requires exclusive access.
 
-It assumes an environment variable called ZOOKEEPER_HOSTS, which is a comma
-separated string.
-
+The zookeeper hosts can either be passed in as a list, or as an environment variable called
+ZOOKEEPER_HOSTS, which is a comma separated string.
 """
 import logging
 import os
@@ -27,8 +26,8 @@ logger = logging.getLogger("runners")
 
 class Lock(object):
 
-    def __init__(self, path, state_listener=None):
-        client = get_zookeeper_client()
+    def __init__(self, path, state_listener=None, zookeeper_hosts=None):
+        client = get_zookeeper_client(zookeeper_hosts=zookeeper_hosts)
         logger.info("Starting zookeeper client...")
         self.path = path
         self.identifier = generate_identifier()
@@ -75,13 +74,16 @@ def generate_identifier():
     return u"{0}-{1}".format(socket.gethostname(), uuid.uuid4().hex)
 
 
-def get_zookeeper_client():
-    zookeeper_hosts = os.getenv("ZOOKEEPER_HOSTS")
-    if not zookeeper_hosts:
-        raise LockException("No value found for  ZOOKEEPER_HOSTS env var")
+def get_zookeeper_client(zookeeper_hosts=None):
+    if zookeeper_hosts is not None:
+        host_string = u",".join(zookeeper_hosts)
+    else:
+        host_string = os.getenv("ZOOKEEPER_HOSTS")
+        if not host_string:
+            raise LockException("No value found for ZOOKEEPER_HOSTS env var")
 
-    logger.info(u"zookeeper hosts={0}".format(zookeeper_hosts))
-    return kazoo_client.KazooClient(hosts=zookeeper_hosts)
+    logger.info(u"zookeeper hosts={0}".format(host_string))
+    return kazoo_client.KazooClient(hosts=host_string)
 
 
 class LockException(Exception):
