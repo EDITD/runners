@@ -75,8 +75,10 @@ def get_zookeeper_client(zookeeper_hosts):
     # kazoo requires a comma separated string.
     if isinstance(zookeeper_hosts, list):
         host_string = u",".join(zookeeper_hosts)
-    else:
+    elif isinstance(zookeeper_hosts, basestring):
         host_string = zookeeper_hosts
+    else:
+        raise LockException("zookeeper_hosts arg must be a string or list of string")
 
     logger.info(u"zookeeper hosts={0}".format(host_string))
     return kazoo_client.KazooClient(hosts=host_string)
