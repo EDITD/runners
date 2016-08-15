@@ -74,7 +74,7 @@ def generate_identifier():
 def get_zookeeper_client(zookeeper_hosts):
     # kazoo requires a comma separated string.
     if isinstance(zookeeper_hosts, list):
-        host_string = ",".join(zookeeper_hosts)
+        host_string = u",".join(zookeeper_hosts)
     else:
         host_string = zookeeper_hosts
 
