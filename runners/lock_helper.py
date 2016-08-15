@@ -78,7 +78,7 @@ def get_zookeeper_client(zookeeper_hosts):
     elif isinstance(zookeeper_hosts, basestring):
         host_string = zookeeper_hosts
     else:
-        raise LockException("zookeeper_hosts arg must be a string or list of string")
+        raise LockException("zookeeper_hosts arg must be a string or list of strings")
 
     logger.info(u"zookeeper hosts={0}".format(host_string))
     return kazoo_client.KazooClient(hosts=host_string)
