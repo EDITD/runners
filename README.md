@@ -13,14 +13,5 @@ $ python
 ... 
 ```
 
-Zookeeper hosts can also be passed in via an environment variable.
-
-```
-$ export ZOOKEEPER_HOSTS='example-01,example-02'
-$ python
->>> import runners
->>> with runners.lock("/foo/bar"):
-...     # Do something exclusively
-...     pass
-... 
-```
+`zookeeper_hosts` can either be a list of strings `["example-01", "example-02"]` or a
+string of comma separated values `"example-01,example-02"`.
