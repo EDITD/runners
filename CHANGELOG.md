@@ -1,10 +1,16 @@
+# UNRELEASED CHANGES
+
+# v0.0.5
+
+* Move from an environment variable to an explicit argument 
+
 # v0.0.4
 
-Expose kazoo client in lock helper
+* Expose kazoo client in lock helper
 
 # v0.0.3
 
-Add new version to deal with forgetting to update `setup.py` in previous
+* Add new version to deal with forgetting to update `setup.py` in previous
 release
 
 # v0.0.2

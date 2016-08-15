@@ -1,17 +1,13 @@
 """Provide a context manager that will acquire a lock (using zookeeper)
 before running the given code.
 
-with Lock("some-key"):
+with Lock("some-key", zookeeper_hosts=[...]):
     do_something_exclusive()
 
 If required, do_something_exclusive can be an infinite loop (a poller, or
 an app).
 
 Or it can simply be something that requires exclusive access.
-
-It assumes an environment variable called ZOOKEEPER_HOSTS, which is a comma
-separated string.
-
 """
 import logging
 import os
@@ -27,8 +23,8 @@ logger = logging.getLogger("runners")
 
 class Lock(object):
 
-    def __init__(self, path, state_listener=None):
-        client = get_zookeeper_client()
+    def __init__(self, path, zookeeper_hosts, state_listener=None):
+        client = get_zookeeper_client(zookeeper_hosts)
         logger.info("Starting zookeeper client...")
         self.path = path
         self.identifier = generate_identifier()
@@ -75,13 +71,17 @@ def generate_identifier():
     return u"{0}-{1}".format(socket.gethostname(), uuid.uuid4().hex)
 
 
-def get_zookeeper_client():
-    zookeeper_hosts = os.getenv("ZOOKEEPER_HOSTS")
-    if not zookeeper_hosts:
-        raise LockException("No value found for  ZOOKEEPER_HOSTS env var")
+def get_zookeeper_client(zookeeper_hosts):
+    # kazoo requires a comma separated string.
+    if isinstance(zookeeper_hosts, list):
+        host_string = u",".join(zookeeper_hosts)
+    elif isinstance(zookeeper_hosts, basestring):
+        host_string = zookeeper_hosts
+    else:
+        raise LockException("zookeeper_hosts arg must be a string or list of strings")
 
-    logger.info(u"zookeeper hosts={0}".format(zookeeper_hosts))
-    return kazoo_client.KazooClient(hosts=zookeeper_hosts)
+    logger.info(u"zookeeper hosts={0}".format(host_string))
+    return kazoo_client.KazooClient(hosts=host_string)
 
 
 class LockException(Exception):
