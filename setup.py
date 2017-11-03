@@ -11,7 +11,7 @@ REQUIREMENTS = [
 
 # Regex matching pattern for v followed by 2 or 3 numerical values ending with
 # a newline
-pattern = re.compile('([v]\d+\.)+(\d+\.){0,1}(\d)(?:$|\n)')
+pattern = re.compile('[0-9]+\.[0-9]+\.?[0-9]*')
 
 
 def get_version():
@@ -19,7 +19,7 @@ def get_version():
         while True:
             version = pattern.findall(fn.readline())
             if len(version) > 0:
-                return ''.join(version[0])[1:]
+                return ''.join(version[0])
 
 
 if __name__ == "__main__":
