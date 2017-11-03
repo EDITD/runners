@@ -1,8 +1,13 @@
 # UNRELEASED CHANGES
 
+# v0.0.6
+
+* Added get version from changelog to setup.py
+* Changed print function to be python3 compatible
+
 # v0.0.5
 
-* Move from an environment variable to an explicit argument 
+* Move from an environment variable to an explicit argument
 
 # v0.0.4
 
