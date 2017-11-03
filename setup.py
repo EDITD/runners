@@ -1,6 +1,8 @@
-import setuptools
+from __future__ import print_function
+
 import sys
 
+import setuptools
 
 REQUIREMENTS = [
     "kazoo==2.0",
@@ -10,7 +12,7 @@ REQUIREMENTS = [
 if __name__ == "__main__":
     if len(sys.argv) > 1 and sys.argv[1] == "requirements":
         for req in REQUIREMENTS:
-            print req
+            print(req)
         sys.exit(0)
 
     setuptools.setup(
