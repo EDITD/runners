@@ -9,8 +9,7 @@ REQUIREMENTS = [
     "kazoo==2.0",
 ]
 
-# Regex matching pattern for v followed by 2 or 3 numerical values ending with
-# a newline
+# Regex matching pattern for v followed by numerical values
 pattern = re.compile('[0-9]+\.[0-9]+\.?[0-9]*')
 
 
