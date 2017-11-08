@@ -1,5 +1,9 @@
 # UNRELEASED CHANGES
 
+# v0.0.7
+
+* Including changelog to pypi upload now.
+
 # v0.0.6
 
 * Added get version from changelog to setup.py
