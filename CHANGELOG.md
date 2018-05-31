@@ -1,5 +1,7 @@
 # UNRELEASED CHANGES
 
+* [#12] Python3 compatibility (pending major release change)
+
 # v0.0.7
 
 * Including changelog to pypi upload now.
