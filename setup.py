@@ -10,15 +10,15 @@ REQUIREMENTS = [
 ]
 
 # Regex matching pattern  followed by 3 numerical values separated by .
-pattern = re.compile('[0-9]+\.[0-9]+\.?[0-9]*')
+pattern = re.compile("[0-9]+\.[0-9]+\.?[0-9]*")
 
 
 def get_version():
-    with open('CHANGELOG.md', 'r') as fn:
+    with open("CHANGELOG.md", "r") as fn:
         while True:
             version = pattern.findall(fn.readline())
             if len(version) > 0:
-                return ''.join(version[0])
+                return "".join(version[0])
 
 
 if __name__ == "__main__":
@@ -39,5 +39,5 @@ if __name__ == "__main__":
         description="Help with running stuff",
         long_description="View the github page " +
             "(https://github.com/EDITD/runners) for more details.",
-        install_requires=REQUIREMENTS
+        install_requires=REQUIREMENTS,
     )
