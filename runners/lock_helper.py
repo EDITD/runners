@@ -1,12 +1,10 @@
-"""Provide a context manager that will acquire a lock (using zookeeper)
-before running the given code.
+"""
+Provide a context manager that will acquire a lock (using zookeeper) before running the given code.
 
 with Lock("some-key", zookeeper_hosts=[...]):
     do_something_exclusive()
 
-If required, do_something_exclusive can be an infinite loop (a poller, or
-an app).
-
+If required, do_something_exclusive can be an infinite loop (a poller, or an app).
 Or it can simply be something that requires exclusive access.
 """
 
@@ -38,13 +36,11 @@ class Lock(object):
         else:
             client.add_listener(default_state_listener)
 
-        self.zookeeper_lock = kazoo_lock.Lock(client, self.path,
-                                              self.identifier)
+        self.zookeeper_lock = kazoo_lock.Lock(client, self.path, self.identifier)
         self.zookeeper_client = client
 
     def __enter__(self):
-        logger.info("id={0}: waiting to acquire lock on {1}".format(
-            self.identifier, self.path))
+        logger.info("id={0}: waiting to acquire lock on {1}".format(self.identifier, self.path))
         self.zookeeper_lock.acquire(blocking=True)
         logger.info("acquired lock")
         return self
@@ -56,8 +52,10 @@ class Lock(object):
 
 def default_state_listener(state):
     logging.debug(u"**** state is now {0} ****".format(state))
-    if state in [kazoo_client.KazooState.LOST,
-                 kazoo_client.KazooState.SUSPENDED]:
+    if state in [
+        kazoo_client.KazooState.LOST,
+        kazoo_client.KazooState.SUSPENDED,
+    ]:
         logging.error(u"Entered a bad state: {0}, exiting".format(state))
         # Zookeeper state is in an odd situation, we should exit ourselves to
         # ensure that the code doesn't run without being elected master.
@@ -65,7 +63,8 @@ def default_state_listener(state):
 
 
 def generate_identifier():
-    """Returns a string to be used as an identifier when waiting for a lock.
+    """
+    Returns a string to be used as an identifier when waiting for a lock.
     """
     # While we use a uuid to ensure that it is globally unique, we also add
     # the hostname so that the identifier provides some human-readable info.

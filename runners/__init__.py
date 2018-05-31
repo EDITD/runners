@@ -1,4 +1,5 @@
-"""Provide a common access point to all the utilities defined within.
+"""
+Provide a common access point to all the utilities defined within.
 """
 
 from runners import lock_helper
