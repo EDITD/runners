@@ -7,6 +7,7 @@ import setuptools
 
 REQUIREMENTS = [
     "kazoo==2.0",
+    "six==1.11.0",
 ]
 
 # Regex matching pattern  followed by 3 numerical values separated by .
