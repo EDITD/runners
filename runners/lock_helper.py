@@ -16,6 +16,8 @@ import uuid
 import kazoo.client as kazoo_client
 import kazoo.recipe.lock as kazoo_lock
 
+from six import string_types
+
 
 logger = logging.getLogger("runners")
 
@@ -75,7 +77,7 @@ def get_zookeeper_client(zookeeper_hosts):
     # kazoo requires a comma separated string.
     if isinstance(zookeeper_hosts, list):
         host_string = u",".join(zookeeper_hosts)
-    elif isinstance(zookeeper_hosts, basestring):
+    elif isinstance(zookeeper_hosts, string_types):
         host_string = zookeeper_hosts
     else:
         raise LockException("zookeeper_hosts arg must be a string or list of strings")
